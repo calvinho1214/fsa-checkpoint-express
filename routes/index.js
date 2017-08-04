@@ -37,7 +37,6 @@ router.put('/users/:name/tasks/:id', (req, res) => {
     res.json('done')
 })
 router.delete('/users/:name/tasks/:id', (req, res) => {
-    console.log('removing ', req.params)
     todos.remove(req.params.name, req.params.id)
     res.status(204).json('done')
 })

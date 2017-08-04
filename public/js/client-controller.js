@@ -24,6 +24,10 @@ var vm = new Vue({
             //   dataType: 'json',
             //   data: d,
           }).done(() => {
+                if (method == "DELETE")
+                    toastr.error('Deleted task!')
+                else
+                    toastr.info(`Marked as done!!`)
                 $.get('/users/' + name + '/tasks', data => {
                     console.log('d', data)
                     this.todos = data
@@ -61,15 +65,12 @@ $(document).ready(() => {
     $('#submitbtn').on('click', e => {
         e.preventDefault();
         const user = $('#user')[0].value
-        // console.log("$('#completion').is(':checked')", $('#completion').is(':checked'))
         const obj = {
             content: $('#task')[0].value,
             complete: $('#completion').is(':checked'),
         }
-        // console.log(obj)
         $.post(`/users/${user}/tasks`, obj, data => {
-            // console.log('data', data);
-            toastr.success(`Task ${data.content} saved`, 'Task saved!')
+            toastr.success(`Task ${data.content} saved`, 'Added task!')
             reload()
             if (vm.selectedUser == user)
                 vm.todos.push(data)
