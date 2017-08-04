@@ -1,40 +1,16 @@
-# Checkpoint - Express
+# note from swyx
 
-Firstly, don't stress out that we will be using this test to judge you in any way except to understand how we can better help you.
+This is my completed tasks from the express checkpoint assigned in FSA week 2.
 
-Also, we ask that you don't help each other or cheat.  Feel free to use any online resource but don't copy/paste answers to each other or if you find something similar online.
+The task was a basic application of express routing on an in-memory storage of todo items with various states of completion. The test specs dont include full todo list functionality so don't expect it.
 
-## Resources
+There was no bonus task so i made it a challenge to put a frontend on this task (where all the routes had been set up)
 
-The following resources are allowed:
+I went with a vue application powered by jquery for ajaxing and bootstrap for the design.
 
-* Any notes you've taken so far.
-* Any code you have in your previous projects.
-* learn.fullstackacademy.com.
-* All the slide decks that we've used in class.
+## Some technical things i wrestled with:
+- vue animations dont work very nicely when you bind data to an element and then change the data. [in fact they dont work at all](https://stackoverflow.com/questions/43050109/vue-js-transition-on-data-change). 
+i had to fudge it with a [v-if and v-else of the same exact element](https://vuejs.org/v2/guide/transitions.html#Transitioning-Between-Elements). i dont think this is the right way but i cant figure out how to do it.
+- when returning a response with a `204` status code, you cant attach any data payload. this tripped me up quite a bit.
 
-## Things we're testing
-
-* Express app architecture 
-* Express routing
-
-## Starting
-
-1. Fork this repository to your own Github user account.
-2. Clone this to your local machine.
-3. `npm install`
-4. You can run `npm test` which will continuously run the test suite upon file updates.
-5. Read through the project structure, you'll be primarily working in `models/todos.js`, `routes/index.js`, and `app.js`.
-6. Start working through the tests in `test/`. Make sure to change an `xit` to an `it` to change any given spec from pending to active.
-7. `git commit` often as you make progress on the tests.
-
-These tests include [supertest](https://github.com/visionmedia/supertest).
-
-## Submitting
-
-As you complete each answer (or make an update), please commit the changes to the git repository.  To submit your answers:
-
-1. Keep all specs active. 
-2. Push your repository back to your own personal fork.
-3. Before the deadline, `git commit -am 'submission for deadline'`
-4. `git push`
+The thingy is hosted here: <https://swyx-expresstodo.herokuapp.com/>
