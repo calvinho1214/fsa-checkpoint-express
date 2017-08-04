@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>express checkpoint todo list</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+    body {
+        padding-top: 70px;
+        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    }
+    .slide-fade-enter-active {
+        transition: all .8s ease;
+    }
+    .slide-fade-leave-active {
+    /*transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);*/
+        transform: translateY(10px);
+        opacity: 0;
+    }
+    .slide-fade-enter {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    .slide-fade-leave-to
+        /* .slide-fade-leave-active below version 2.1.8 */ {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">express checkpoint todo list</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="https://github.com/sw-yx/checkpoint-express/tree/master">Source Code (external)</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>express checkpoint todo list<</h1>
+                <p class="lead">a self created bonus thingy.</p>
+                <ul class="list-unstyled">
+                    <li>week 2</li>
+                    <li>full stack academy</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row" id="vm">
+            <div class="col-md-3">
+                <h3>Add new task</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="username">user</label>
+                        <input type="text" class="form-control" id="user" placeholder="username" required :value="selectedUser">
+                    </div>
+                    <div class="form-group">
+                        <label for="task">task</label>
+                        <input type="text" class="form-control" id="task" placeholder="task" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" id="completion"> Completion
+                        </label>
+                    <button type="submit" class="btn btn-primary pull-right" id="submitbtn">Submit</button>
+                    </div>
+                </form>
+                <hr>
+                <div v-if="users.length">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Users</th>
+                        </tr>
+                        </thead>
+                        <tbody v-for="u in users">
+                            <tr :class="selectedUser == u && 'success'">
+                                <td @click="function(){selectedUser = u}">{{ u }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-md-9 text-center"  v-if="selectedUser">
+                <transition name="slide-fade">
+                    <div v-if="todotoggle" key="div1">
+                        <h3>{{selectedUser}}'s Todos</h3>
+                        <table class="table">
+                            <thead class="thead-inverse">
+                                <tr>
+                                    <!--<th>User</th>-->
+                                    <th>Todo</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(t, i) in todos">
+                                    <th scope="row">{{i + 1}}</th>
+                                    <td><p class="text-left">{{t.content}}</p></td>
+                                    <td v-if="t.complete"><p class="text-left">✔</p></td>
+                                    <td v-else><p class="text-left"><a @click="()=>{marktask(selectedUser, i, 'PUT')}">Mark done</a></p></td>
+                                    <td>
+                                        <p class="text-left">
+                                            <span @click="()=>{todos.splice(i); marktask(selectedUser, i, 'DELETE')}">❌</span>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div v-else key="div2">
+                        <h3>{{selectedUser}}'s Todos</h3>
+                        <table class="table">
+                            <thead class="thead-inverse">
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Todo</th>
+                                    <th>Status</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(t, i) in todos">
+                                    <th scope="row">{{i + 1}}</th>
+                                    <td><p class="text-left">{{t.content}}</p></td>
+                                    <td v-if="t.complete"><p class="text-left">✔</p></td>
+                                    <td v-else><p class="text-left"><a @click="()=>{modifyTodo(selectedUser, i, 'PUT')}">Mark done</a></p></td>
+                                    <td>
+                                        <p class="text-left">
+                                            <span @click="()=>{todos.splice(i); modifyTodo(selectedUser, i, 'DELETE')}">❌</span>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </transition>
+            </div>
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+
+    
+    
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <!-- swyx script -->
+    <script src="js/client-controller.js"></script>
+
+</body>
+
+</html>

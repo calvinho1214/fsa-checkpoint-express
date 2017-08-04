@@ -9,6 +9,7 @@ module.exports = app; // this line is only used to make testing easier.
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(require('./routes'));
+app.use(express.static('public'));
 
 
-if (!module.parent) app.listen(3000); // conditional prevents a very esoteric EADDRINUSE issue with mocha watch + supertest + npm test.
+if (!module.parent) app.listen(process.env.PORT || 3000); // conditional prevents a very esoteric EADDRINUSE issue with mocha watch + supertest + npm test.

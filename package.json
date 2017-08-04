@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --watch test/**.js",
-    "grade": "mocha --reporter spec --timeout 300 test/*.js"
+    "grade": "mocha --reporter spec --timeout 300 test/*.js",
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",

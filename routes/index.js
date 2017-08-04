@@ -16,18 +16,20 @@ router.get('/users/:name/tasks', (req, res) => {
             res.json(newlist)
         }
     else
-        {res.json(404, 'not found')}
+        {res.status(404).json('not found')}
 })
 router.post('/users/:name/tasks', (req, res) => {
     if (Object.keys(req.body).map(x => ['complete','content'].includes(x)).reduce((a, b) => a && b)) {
-        todos.add(req.params.name, req.body)
+        const temp = { content: req.body.content}
+        if (req.body.complete) temp.complete = req.body.complete != "false"
+        todos.add(req.params.name, temp)
         const newlist = todos.list(req.params.name)
         if (newlist)
-            {res.json(201, newlist[newlist.length - 1])}
+            {res.status(201).json(newlist[newlist.length - 1])}
         else
-            {res.json(404, 'not found')}
+            {res.status(404).json('not found')}
     } else {
-        res.json(400, 'done')
+        res.status(400).json('done')
     }
 })
 router.put('/users/:name/tasks/:id', (req, res) => {
@@ -35,8 +37,9 @@ router.put('/users/:name/tasks/:id', (req, res) => {
     res.json('done')
 })
 router.delete('/users/:name/tasks/:id', (req, res) => {
+    console.log('removing ', req.params)
     todos.remove(req.params.name, req.params.id)
-    res.json(204, 'done')
+    res.status(204).json('done')
 })
 router.get('/users', (req, res) => {
     res.json(todos.listPeople())

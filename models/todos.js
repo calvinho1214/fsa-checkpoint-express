@@ -13,7 +13,10 @@ module.exports = {
   },
   add: function (name, task) {
     // saves a task for a given person
-    if (!task.hasOwnProperty('complete')) task.complete = false
+    // console.log('addfunction', task)
+    // if (!Object.prototype.hasOwnProperty(task, 'complete')) {task.complete = false}
+    if (!task.hasOwnProperty('complete')) {task.complete = false}
+    // console.log('addfunction', task)
     if (tasks[name]) {
       // var x = tasks[name]
       // x
@@ -31,7 +34,12 @@ module.exports = {
   },
   remove: function (name, idx) {
     tasks[name].splice(idx,1)
+    if (tasks[name].length < 1) {
+      delete tasks[name]
+      return true
+    } else {
+      return false
+    }
   }
-  // etc.
 
 };
