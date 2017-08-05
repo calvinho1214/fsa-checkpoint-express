@@ -1,3 +1,5 @@
+![gif](expresstodo.gif)
+
 # note from swyx
 
 This is my completed tasks from the express checkpoint assigned in FSA week 2.
